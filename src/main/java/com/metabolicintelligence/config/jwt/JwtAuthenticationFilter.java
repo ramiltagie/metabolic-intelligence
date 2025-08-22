@@ -1,20 +1,6 @@
 package com.metabolicintelligence.config.jwt;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-
-import javax.crypto.SecretKey;
-
-import org.springframework.security.authentication.AuthenticationServiceException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
-
 import com.metabolicintelligence.repository.RevokedTokenRepository;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -24,6 +10,17 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import javax.crypto.SecretKey;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 @Component
 @RequiredArgsConstructor
@@ -40,7 +37,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (header != null && header.toLowerCase().startsWith("bearer ")) {
             String token = header.substring(header.indexOf(' ') + 1);
-            
+
             if (revokedTokenRepository.findByToken(token).isPresent()) {
                 throw new AuthenticationServiceException("Access token has been revoked");
             }

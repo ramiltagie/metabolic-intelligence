@@ -1,10 +1,9 @@
 package com.metabolicintelligence.repository;
 
-import java.util.Optional;
-
+import com.metabolicintelligence.domain.RevokedToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.metabolicintelligence.domain.RevokedToken;
+import java.util.Optional;
 
 public interface RevokedTokenRepository extends JpaRepository<RevokedToken, Integer> {
     Optional<RevokedToken> findByToken(String token);
