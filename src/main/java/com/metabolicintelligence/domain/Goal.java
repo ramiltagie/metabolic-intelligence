@@ -28,6 +28,11 @@ public class Goal {
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private User user;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "goal_type", nullable = false, length = 32)
+    private GoalType goalType;
+
     @Min(20)
     @Max(400)
     @Column(name = "target_weight_kg")
